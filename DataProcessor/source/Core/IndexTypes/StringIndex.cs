@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 
-namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     public class StringIndex : DataIndex, IEnumerable<string>
     {
@@ -50,7 +50,7 @@ namespace DataProcessor.source.IndexTypes
             }
 
             this.stringIndexes = new string[stringIndexes.Count];
-            this.indexMap = new Dictionary<string, List<int>>();
+            indexMap = new Dictionary<string, List<int>>();
             for (int i = 0; i < stringIndexes.Count; i++)
             {
                 var normalizedKey = NormalizeUnicode(stringIndexes[i], normalizationForm);
@@ -268,3 +268,4 @@ namespace DataProcessor.source.IndexTypes
         }
     }
 }
+

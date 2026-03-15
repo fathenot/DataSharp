@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     public class CharIndex : DataIndex
     {
@@ -62,7 +62,7 @@ namespace DataProcessor.source.IndexTypes
         {
             if (key is char ch)
             {
-                this.indexMap.TryGetValue(ch, out var DataIndex);
+                indexMap.TryGetValue(ch, out var DataIndex);
                 if (DataIndex != null)
                     return DataIndex[0];
                 return -1;
@@ -167,3 +167,4 @@ namespace DataProcessor.source.IndexTypes
         }
     }
 }
+

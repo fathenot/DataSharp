@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     public class DateTimeIndex : DataIndex
     {
@@ -28,7 +28,7 @@ namespace DataProcessor.source.IndexTypes
 
         public DateTimeIndex(List<DateTime> times) : base(times.Cast<object>().ToList())
         {
-            this.dateTimes = times;
+            dateTimes = times;
             indexMap = new Dictionary<DateTime, List<int>>();
             for (int i = 0; i < times.Count; i++)
             {
@@ -166,3 +166,4 @@ namespace DataProcessor.source.IndexTypes
         }
     }
 }
+

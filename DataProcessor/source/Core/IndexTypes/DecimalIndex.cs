@@ -1,4 +1,4 @@
-﻿namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     public class DecimalIndex : DataIndex
     {
@@ -45,7 +45,7 @@
         {
             if (obj is DecimalIndex other)
             {
-                return this.decimals.SequenceEqual(other.decimals);
+                return decimals.SequenceEqual(other.decimals);
             }
             return false;
         }
@@ -191,3 +191,4 @@
         }
     }
 }
+

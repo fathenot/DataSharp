@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 
-namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     public class RangeIndex : DataIndex
     {
@@ -38,7 +38,7 @@ namespace DataProcessor.source.IndexTypes
         {
             get
             {
-                return this.DistinctIndices().ToList();
+                return DistinctIndices().ToList();
             }
         }
 
@@ -71,7 +71,7 @@ namespace DataProcessor.source.IndexTypes
 
         public override DataIndex TakeKeys(List<object> indexList)
         {
-            if (indexList.Cast<int>().Any(v => v < _start || v > this._stop))
+            if (indexList.Cast<int>().Any(v => v < _start || v > _stop))
             {
                 throw new ArgumentOutOfRangeException(nameof(indexList), "Index list contains values outside the range of the current index.");
             }
@@ -111,7 +111,7 @@ namespace DataProcessor.source.IndexTypes
         /// <returns>The first zero-based position of the key as an integer, calculated by subtracting the starting value.</returns>
         public override int FirstPositionOf(object key)
         {
-            return this.Contains(key)? (Convert.ToInt32(key) - _start) / _step : -1;
+            return Contains(key)? (Convert.ToInt32(key) - _start) / _step : -1;
         }
 
         /// <summary>
@@ -174,3 +174,4 @@ namespace DataProcessor.source.IndexTypes
         }
     }
 }
+

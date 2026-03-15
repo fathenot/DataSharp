@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
 
     /// <summary>
@@ -92,7 +92,7 @@ namespace DataProcessor.source.IndexTypes
         public MultiIndex(List<MultiKey> indexList)
         {
             this.indexList = indexList;
-            this.indexMap = new Dictionary<MultiKey, List<int>>();
+            indexMap = new Dictionary<MultiKey, List<int>>();
             for (int i = 0; i < indexList.Count; i++)
             {
                 var key = indexList[i];
@@ -107,7 +107,7 @@ namespace DataProcessor.source.IndexTypes
         // properties
         public override int Count => indexList.Count;
 
-        public override IReadOnlyList<object> IndexList => this.indexList.Cast<object>().ToList().AsReadOnly();
+        public override IReadOnlyList<object> IndexList => indexList.Cast<object>().ToList().AsReadOnly();
 
         // methods
         public override MultiIndex Slice(int start, int end, int step = 1)
@@ -175,7 +175,7 @@ namespace DataProcessor.source.IndexTypes
 
             if (key is object[] arr)
             {
-                return this.Contains(arr);
+                return Contains(arr);
             }
 
             throw new ArgumentException($"{nameof(key)} must be object array or multikey");
@@ -274,3 +274,4 @@ namespace DataProcessor.source.IndexTypes
         }
     }
 }
+

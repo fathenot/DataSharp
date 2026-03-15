@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     /// <summary>
     /// Represents an abstract base class for indexing functionality in a DataFrame-like structure.
@@ -75,7 +75,7 @@ namespace DataProcessor.source.IndexTypes
         /// </summary>
         /// <param name="indexList">A list of keys used to select elements from the current index. Each key must correspond to an existing
         /// element in the index.</param>
-        /// <returns>An <see cref="Index"/> containing the elements that match the specified keys.</returns>
+        /// <returns>An <see cref="DataIndex"/> containing the elements that match the specified keys.</returns>
 
         public abstract DataIndex TakeKeys(List<object> indexList);
         /// <summary>
@@ -112,3 +112,4 @@ namespace DataProcessor.source.IndexTypes
         public abstract DataIndex Clone();
     }
 }
+

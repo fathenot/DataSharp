@@ -1,4 +1,4 @@
-﻿namespace DataProcessor.source.IndexTypes
+namespace DataProcessor.source.Core.IndexTypes
 {
     public class ObjectIndex : DataIndex
     {
@@ -156,3 +156,4 @@
         }
     }
 }
+
