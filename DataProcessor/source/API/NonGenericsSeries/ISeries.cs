@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataProcessor.source.API.NonGenericsSeries
+{
+    public interface ISeries
+    {
+        public string? Name { get; }
+        public IReadOnlyList<object?> Values { get; }
+        public Type DataType { get; }
+        public bool IsReadOnly { get; }
+        public int Count { get; }
+        public ISeries AsType(Type NewType, bool ForceCast = false);
+    }
+}
+
