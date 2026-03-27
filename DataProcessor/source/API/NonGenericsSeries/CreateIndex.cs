@@ -17,7 +17,7 @@ namespace DataProcessor.source.API.NonGenericsSeries
         /// <param name="index">A list of objects to be used for creating the index. The list must not contain null values.</param>
         /// <returns>An implementation of <see cref="Index"/> that corresponds to the data type of the elements in the provided
         /// list. If the list contains grouped index elements, a <see cref="MultiIndex"/> is returned. Otherwise, the
-        /// method returns a specific index type such as <see cref="StringIndex"/>, <see cref="Int64Index"/>, <see
+        /// method returns a specific index type such as <see cref="StringIndex"/>, <see cref="Int32Index"/>, <see cref="Int64Index"/>, <see
         /// cref="DateTimeIndex"/>, <see cref="DoubleIndex"/>, <see cref="CharIndex"/>, <see cref="DecimalIndex"/>, or
         /// <see cref="ObjectIndex"/> based on the inferred data type of the list elements.</returns>
         /// <exception cref="ArgumentException">Thrown if <paramref name="index"/> contains null values.</exception>
@@ -46,9 +46,13 @@ namespace DataProcessor.source.API.NonGenericsSeries
             {
                 return new StringIndex(index.Cast<string>().ToList());
             }
-            else if (TypeInference.IsIntegerType(datatype))
+            else if(datatype == typeof(Int64))
             {
-                return new Int64Index(index.Select(Convert.ToInt64).ToList());
+                return new Int64Index(index.Cast<Int64>().ToList());
+            }
+            else if (datatype == typeof(Int32))
+            {
+                return new Int32Index(index.Select(Convert.ToInt32).ToList());
             }
             else if (datatype == typeof(DateTime))
             {
@@ -68,4 +72,5 @@ namespace DataProcessor.source.API.NonGenericsSeries
         }
     }
 }
+
 
