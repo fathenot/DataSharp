@@ -1,5 +1,6 @@
-﻿using System.Collections;
-namespace DataProcessor.source.ValueStorage
+using System.Collections;
+
+namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
     /// Provides storage for an array of objects, allowing access to individual elements and their native buffer
@@ -11,6 +12,7 @@ namespace DataProcessor.source.ValueStorage
     internal class ObjectValueStorage : AbstractValueStorage, IEnumerable<object?>
     {
         private readonly object?[] objects;
+        private readonly NullBitMap nullBitMap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectValueStorage"/> class with the specified array of
@@ -25,7 +27,7 @@ namespace DataProcessor.source.ValueStorage
         /// the input array is stored as-is, which assumes the caller has ensured the array is safe to use.</param>
         internal ObjectValueStorage(object?[] objects, bool copy = true)
         {
-            if(copy)
+            if (copy)
             {
                 this.objects = objects.Select(o => UniversalDeepCloner.DeepClone(o)).ToArray();
             }
@@ -36,6 +38,12 @@ namespace DataProcessor.source.ValueStorage
                 // Use with caution.
                 this.objects = objects;
             }
+
+            nullBitMap = new NullBitMap(this.objects.Length);
+            for (int i = 0; i < this.objects.Length; i++)
+            {
+                nullBitMap.SetNull(i, this.objects[i] == null);
+            }
         }
 
         internal override nint GetNativeBufferPointer()
@@ -45,13 +53,14 @@ namespace DataProcessor.source.ValueStorage
 
         internal override StorageKind storageKind => StorageKind.Object;
         internal override int Count => objects.Length;
+
         internal override IEnumerable<int> NullIndices
         {
             get
             {
                 for (int i = 0; i < objects.Length; i++)
                 {
-                    if (objects[i] == null)
+                    if (nullBitMap.IsNull(i))
                     {
                         yield return i;
                     }
@@ -63,6 +72,11 @@ namespace DataProcessor.source.ValueStorage
         /// Gets an array containing all non-null elements from the underlying collection.
         /// </summary>
         internal object[] NonNullValues => objects.Where(element => element is not null).ToArray();
+
+        internal ReadOnlySpan<object?> ValuesSpan => objects;
+
+        internal NullBitMap NullBitmap => nullBitMap;
+
         internal override Type ElementType => typeof(object);
 
         internal override object? GetValue(int index)
@@ -73,6 +87,7 @@ namespace DataProcessor.source.ValueStorage
         internal override void SetValue(int index, object? value)
         {
             objects[index] = value;
+            nullBitMap.SetNull(index, value == null);
         }
 
         public override IEnumerator<object?> GetEnumerator()
@@ -120,7 +135,6 @@ namespace DataProcessor.source.ValueStorage
 
             public void Dispose()
             {
-                // No unmanaged resources to clean up in this case.
             }
         }
     }

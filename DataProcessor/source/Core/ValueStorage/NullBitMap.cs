@@ -1,4 +1,4 @@
-﻿namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
     /// Represents a bitmap to track null states for a collection of elements.

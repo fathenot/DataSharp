@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     internal enum StorageKind
     {
@@ -19,3 +19,4 @@ namespace DataProcessor.source.ValueStorage
         Object
     }
 }
+

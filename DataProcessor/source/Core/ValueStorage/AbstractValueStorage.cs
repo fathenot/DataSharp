@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("test")]
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
     /// Provides an abstract representation of a columnar value storage unit,
@@ -95,3 +95,4 @@ namespace DataProcessor.source.ValueStorage
         internal abstract StorageKind storageKind { get; }
     }
 }
+

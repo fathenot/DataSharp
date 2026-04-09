@@ -1,18 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 using DataProcessor.source.UserSettings;
-namespace DataProcessor.source.ValueStorage
+
+namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
     /// Provides storage for an array of nullable strings, with functionality to manage and access the data.
     /// </summary>
-    /// <remarks>This class allows for efficient storage and manipulation of string values, including handling
-    /// null values. It provides methods to retrieve and set values by index, access the underlying native buffer
-    /// pointer, and  enumerate indices of null values. The storage is pinned in memory to ensure compatibility with
-    /// native operations.</remarks>
     internal class StringStorage : AbstractValueStorage, IEnumerable<object?>
     {
         private readonly string?[] strings;
+        private readonly NullBitMap nullBitMap;
 
         private void ValidateIndex(int index)
         {
@@ -22,27 +20,16 @@ namespace DataProcessor.source.ValueStorage
             }
         }
 
-        // this is constructor
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StringStorage"/> class with the specified array of strings.
-        /// </summary>
-        /// <remarks>If <paramref name="copy"/> is <see langword="false"/>, the input array is directly
-        /// referenced, and any modifications to the input array after the constructor call will affect the stored data.
-        /// If <paramref name="copy"/> is <see langword="true"/>, the input array is not modified. The normalization
-        /// behavior is determined by the <see cref="UserSettings.NormalizeUnicode"/> property and the normalization
-        /// form specified in <see cref="UserSettings.DefaultNormalizationForm"/>.</remarks>
-        /// <param name="strings">An array of strings to be stored. The array can contain null values.</param>
-        /// <param name="copy">A boolean value indicating whether to create a copy of the input array. If <see langword="true"/>, a new
-        /// array is created and populated with the normalized or original strings. If <see langword="false"/>, the
-        /// input array is used directly, and its elements are normalized in place if normalization is enabled.</param>
         internal StringStorage(string?[] strings, bool copy = true)
         {
-            if(!copy)
+            nullBitMap = new NullBitMap(strings.Length);
+            if (!copy)
             {
                 this.strings = strings;
                 for (int i = 0; i < strings.Length; i++)
                 {
                     this.strings[i] = UserSettings.UserConfig.NormalizeUnicode ? strings[i]?.Normalize(NormalizationForm.FormC) : strings[i];
+                    nullBitMap.SetNull(i, this.strings[i] == null);
                 }
             }
             else
@@ -52,26 +39,22 @@ namespace DataProcessor.source.ValueStorage
                 {
                     string? s = strings[i];
                     this.strings[i] = UserSettings.UserConfig.NormalizeUnicode ? s?.Normalize(NormalizationForm.FormC) : s;
+                    nullBitMap.SetNull(i, this.strings[i] == null);
                 }
             }
-           
         }
 
-        // Properties
-
-        /// <summary>
-        /// Gets an array of strings.
-        /// </summary>
-        /// 
         internal override StorageKind storageKind => StorageKind.String;
+
         internal string?[] Strings
         {
             get { return strings; }
         }
 
-        /// <summary>
-        /// Gets an array containing all non-null string values.
-        /// </summary>
+        internal ReadOnlySpan<string?> ValuesSpan => strings;
+
+        internal NullBitMap NullBitmap => nullBitMap;
+
         internal string[] NonNullValues
         {
             get
@@ -82,36 +65,39 @@ namespace DataProcessor.source.ValueStorage
                 {
                     if (strings[i] != null)
                     {
-                        result[current_idx] = strings[i];
+                        result[current_idx] = strings[i]!;
                         current_idx++;
                     }
                 }
                 return result;
             }
         }
+
         internal override Type ElementType => typeof(string);
 
-        // Methods
         internal override nint GetNativeBufferPointer()
         {
             throw new NotSupportedException("StringStorage does not support native buffer pointer access.");
         }
+
         internal override object? GetValue(int index)
         {
             ValidateIndex(index);
             return strings[index];
         }
+
         internal override void SetValue(int index, object? value)
         {
             if (index < 0 || index >= strings.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
             }
-            if (value != null && !(value is string))
+            if (value != null && value is not string)
             {
                 throw new ArgumentException("Value must be a string or null.", nameof(value));
             }
             strings[index] = ((string?)value)?.Normalize(NormalizationForm.FormC);
+            nullBitMap.SetNull(index, value == null);
         }
 
         internal override int Count => strings.Length;
@@ -122,10 +108,9 @@ namespace DataProcessor.source.ValueStorage
             {
                 for (int i = 0; i < strings.Length; i++)
                 {
-                    if (strings[i] == null)
+                    if (nullBitMap.IsNull(i))
                     {
                         yield return i;
-
                     }
                 }
             }
@@ -133,46 +118,15 @@ namespace DataProcessor.source.ValueStorage
 
         public override IEnumerator<object?> GetEnumerator()
         {
-            return new StringValueEnumerator(this);
+            for (int i = 0; i < strings.Length; i++)
+            {
+                yield return strings[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
-        }
-
-
-
-        private sealed class StringValueEnumerator : IEnumerator<object?>
-        {
-            private readonly StringStorage storage;
-            private int currentIndex = -1;
-            public StringValueEnumerator(StringStorage storage)
-            {
-                this.storage = storage;
-            }
-            public object? Current
-            {
-                get
-                {
-                    if (currentIndex < 0 || currentIndex >= storage.Count)
-                    {
-                        throw new InvalidOperationException("Enumerator is not positioned within the collection.");
-                    }
-                    return storage.GetValue(currentIndex);
-                }
-            }
-            object? IEnumerator.Current => Current;
-            public void Dispose() { }
-            public bool MoveNext()
-            {
-                currentIndex++;
-                return currentIndex < storage.Count;
-            }
-            public void Reset()
-            {
-                currentIndex = -1;
-            }
+            return this.GetEnumerator();
         }
     }
 }

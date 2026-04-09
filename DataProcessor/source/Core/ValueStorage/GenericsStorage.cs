@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
     /// Represents a generic, type-safe value storage implementation for the DataSharp engine.
@@ -51,6 +51,9 @@ namespace DataProcessor.source.ValueStorage
         /// </summary>
         internal int Count => values.Length;
 
+        internal ReadOnlySpan<T> ValuesSpan => values;
+
+        internal NullBitMap NullBitmap => nullBitMap;
         internal T this[int index]
         {
             get => GetValue(index);
@@ -178,3 +181,5 @@ namespace DataProcessor.source.ValueStorage
 
     }
 }
+
+

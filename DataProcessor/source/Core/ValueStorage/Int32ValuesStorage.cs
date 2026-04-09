@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Runtime.InteropServices;
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     internal class Int32ValuesStorage: AbstractValueStorage, IEnumerable<object?>
     {
@@ -114,7 +114,10 @@ namespace DataProcessor.source.ValueStorage
                 }
             }
         }
-
+        internal ReadOnlySpan<int> Values => _intValues;
+        internal ReadOnlySpan<int> ValuesSpan => _intValues;
+        internal NullBitMap NullBitmap => _nullBitMap;
+        internal NullBitMap bitMap => _nullBitMap;
         internal override object? GetValue(int index)
         {
             ValidateIndex(index);
@@ -178,7 +181,7 @@ namespace DataProcessor.source.ValueStorage
         }
         ~Int32ValuesStorage()
         {
-            Dispose();
+            Dispose(false);
         }
 
         /// <summary>
@@ -228,3 +231,6 @@ namespace DataProcessor.source.ValueStorage
         }
     }
 }
+
+
+

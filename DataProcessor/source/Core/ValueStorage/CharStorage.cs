@@ -1,8 +1,7 @@
-﻿using DataProcessor.source.ValueStorage;
 using System.Collections;
 using System.Runtime.InteropServices;
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     internal class CharStorage : AbstractValueStorage, IEnumerable<object?>
     {
@@ -10,11 +9,6 @@ namespace DataProcessor.source.ValueStorage
         private readonly NullBitMap _nullBitMap;
         private readonly GCHandle _handle;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CharStorage"/> class 
-        /// with nullable character values and null tracking.
-        /// </summary>
-        /// <param name="chars">An array of nullable characters. Nulls are tracked separately.</param>
         public CharStorage(char?[] chars)
         {
             _chars = new char[chars.Length];
@@ -37,14 +31,6 @@ namespace DataProcessor.source.ValueStorage
             _handle = GCHandle.Alloc(_chars, GCHandleType.Pinned);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CharStorage"/> class 
-        /// with character values and optional copying.
-        /// </summary>
-        /// <param name="chars">An array of characters.</param>
-        /// <param name="copy">
-        /// Whether to copy the array. If false, the provided array is used directly.
-        /// </param>
         internal CharStorage(char[] chars, bool copy = true)
         {
             _chars = copy ? (char[])chars.Clone() : chars;
@@ -82,6 +68,10 @@ namespace DataProcessor.source.ValueStorage
             }
         }
 
+        internal ReadOnlySpan<char> ValuesSpan => _chars;
+
+        internal NullBitMap NullBitmap => _nullBitMap;
+
         internal override nint GetNativeBufferPointer()
         {
             return _handle.AddrOfPinnedObject();
@@ -105,6 +95,7 @@ namespace DataProcessor.source.ValueStorage
         }
 
         internal override StorageKind storageKind => StorageKind.Char;
+
         internal override void SetValue(int index, object? value)
         {
             if (index < 0 || index >= Count)
@@ -166,14 +157,8 @@ namespace DataProcessor.source.ValueStorage
                 _currentIndex = -1;
             }
 
-            public void Dispose() { }
-        }
-
-        ~CharStorage()
-        {
-            if (_handle.IsAllocated)
+            public void Dispose()
             {
-                _handle.Free();
             }
         }
     }

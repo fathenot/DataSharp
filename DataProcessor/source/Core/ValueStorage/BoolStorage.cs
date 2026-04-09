@@ -1,21 +1,12 @@
-﻿using DataProcessor.source.ValueStorage;
 using System.Collections;
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     internal class BoolStorage : AbstractValueStorage, IEnumerable<object?>
     {
         private readonly BitArray _values;
         private readonly NullBitMap _nullBitMap;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BoolStorage"/> class 
-        /// using the specified array of nullable Boolean values.
-        /// </summary>
-        /// <param name="bools">
-        /// An array of nullable Boolean values to initialize the storage. 
-        /// Each element represents a Boolean value or a null entry.
-        /// </param>
         internal BoolStorage(bool?[] bools)
         {
             var length = bools.Length;
@@ -30,23 +21,20 @@ namespace DataProcessor.source.ValueStorage
                 }
                 else
                 {
-                    _values[i] = false; // Placeholder for nulls
+                    _values[i] = false;
                     _nullBitMap.SetNull(i, true);
                 }
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BoolStorage"/> class 
-        /// using the specified array of Boolean values.
-        /// </summary>
-        /// <param name="bools">
-        /// The array of Boolean values to initialize the storage with.
-        /// </param>
         internal BoolStorage(bool[] bools)
         {
             _values = new BitArray(bools);
             _nullBitMap = new NullBitMap(bools.Length);
+            for (int i = 0; i < bools.Length; i++)
+            {
+                _nullBitMap.SetNull(i, false);
+            }
         }
 
         internal override int Count => _values.Count;
@@ -65,9 +53,6 @@ namespace DataProcessor.source.ValueStorage
             }
         }
 
-        /// <summary>
-        /// Gets all non-null values from the storage.
-        /// </summary>
         internal bool[] NonNullValues
         {
             get
@@ -88,7 +73,20 @@ namespace DataProcessor.source.ValueStorage
             }
         }
 
+        internal ReadOnlySpan<bool> ValuesSpan
+        {
+            get
+            {
+                var result = new bool[_values.Length];
+                _values.CopyTo(result, 0);
+                return result;
+            }
+        }
+
+        internal NullBitMap NullBitmap => _nullBitMap;
+
         internal override StorageKind storageKind => StorageKind.Boolean;
+
         internal override nint GetNativeBufferPointer()
         {
             throw new NotImplementedException();
@@ -104,12 +102,14 @@ namespace DataProcessor.source.ValueStorage
             if (value == null)
             {
                 _nullBitMap.SetNull(index, true);
+                _values[index] = false;
                 return;
             }
 
             if (value is bool b)
             {
                 _values[index] = b;
+                _nullBitMap.SetNull(index, false);
                 return;
             }
 

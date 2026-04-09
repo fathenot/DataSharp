@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Runtime.InteropServices;
 
-namespace DataProcessor.source.ValueStorage
+namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
     /// Provides storage for nullable 64-bit integer values, with support for null tracking and native buffer access.
@@ -117,7 +117,10 @@ namespace DataProcessor.source.ValueStorage
                 }
             }
         }
-
+        internal ReadOnlySpan<long> Values => _intValues;
+        internal ReadOnlySpan<long> ValuesSpan => _intValues;
+        internal NullBitMap NullBitmap => _nullBitMap;
+        internal NullBitMap bitMap => _nullBitMap;
         internal override object? GetValue(int index)
         {
             ValidateIndex(index);
@@ -231,3 +234,6 @@ namespace DataProcessor.source.ValueStorage
         }
     }
 }
+
+
+
