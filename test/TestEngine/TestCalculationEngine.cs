@@ -1,11 +1,6 @@
 ﻿using DataProcessor.source.EngineWrapper.ComputationEngine;
-using DataProcessor.source.ValueStorage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using DataProcessor.source.Core.ValueStorage;
+
 
 namespace test.TestEngine
 {
@@ -19,7 +14,7 @@ namespace test.TestEngine
         [Fact]
         public void TestCalculationEngine1()
         {
-            var storage = new DataProcessor.source.ValueStorage.Int64ValuesStorage(new long?[] { 1, 2, 8, 4, 10 });
+            var storage = new Int64ValuesStorage(new long?[] { 1, 2, 8, 4, 10 });
             Assert.Equal(25, CalculateSum.ComputeSum(storage.Cast<long>().ToArray()));
 
         }
@@ -27,7 +22,7 @@ namespace test.TestEngine
         [Fact]
         public void TestCalculationWithNulls()
         {
-            var storage = new DataProcessor.source.ValueStorage.Int64ValuesStorage(new long?[] { 1, null, 3, null, 5 });
+            var storage = new Int64ValuesStorage(new long?[] { 1, null, 3, null, 5 });
             unsafe
             {
                 long* ptr = (long*)storage.GetNativeBufferPointer();
