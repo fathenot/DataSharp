@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Xunit;
-using DataProcessor.source.NonGenericsSeries;
+using DataProcessor.source.API.NonGenericsSeries;
 
 namespace test.TestNonGenericsSeries
 {

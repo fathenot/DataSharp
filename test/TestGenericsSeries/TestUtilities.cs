@@ -1,6 +1,6 @@
 ﻿using Xunit;
-using DataProcessor.source.GenericsSeries;
-using DataProcessor.source.NonGenericsSeries;
+using DataProcessor.source.API.GenericsSeries;
+using DataProcessor.source.API.NonGenericsSeries;
 using System;
 using System.Collections.Generic;
 

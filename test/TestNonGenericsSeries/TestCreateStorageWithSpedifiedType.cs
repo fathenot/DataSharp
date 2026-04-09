@@ -1,10 +1,10 @@
-﻿using DataProcessor.source.ValueStorage;
+﻿using DataProcessor.source.Core.ValueStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataProcessor.source.NonGenericsSeries;
+using DataProcessor.source.API.NonGenericsSeries;
 namespace test.TestNonGenericsSeries
 {
     public class TestCreateStorageWithSpedifiedType

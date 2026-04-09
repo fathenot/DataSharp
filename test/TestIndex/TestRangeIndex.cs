@@ -1,4 +1,4 @@
-﻿using DataProcessor.source.IndexTypes;
+﻿using DataProcessor.source.Core.IndexTypes;
 
 namespace test.TestIndex
 {
@@ -76,6 +76,13 @@ namespace test.TestIndex
             Assert.Equal(32, result.Count);
             Assert.Equal(2, result[0]);
             Assert.Equal(249 * 2, result[31]);
+        }
+
+        [Fact]
+        public void TestLargeNumberOfelement()
+        {
+            var index = new RangeIndex(0, 1999999);
+            Assert.Equal(2000000, index.Count);
         }
     }
 }

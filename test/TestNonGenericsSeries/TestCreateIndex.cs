@@ -1,8 +1,8 @@
-﻿using DataProcessor.source.IndexTypes;
-using DataProcessor.source.NonGenericsSeries;
+﻿using DataProcessor.source.API.NonGenericsSeries;
 using Xunit;
 using System;
 using System.Linq;
+using DataProcessor.source.Core.IndexTypes;
 
 namespace test.TestNonGenericsSeries
 {

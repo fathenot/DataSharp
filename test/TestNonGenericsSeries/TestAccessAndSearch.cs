@@ -1,5 +1,5 @@
-﻿using DataProcessor.source.GenericsSeries;
-using DataProcessor.source.NonGenericsSeries;
+﻿using DataProcessor.source.API.GenericsSeries;
+using DataProcessor.source.API.NonGenericsSeries;
 namespace test.TestNonGenericsSeries
 {
     public class TestAccessAndSearch

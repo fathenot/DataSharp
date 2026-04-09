@@ -1,4 +1,4 @@
-﻿using DataProcessor.source.GenericsSeries;
+﻿using DataProcessor.source.API.GenericsSeries;
 using DataProcessor.source.UserSettings.DefaultValsGenerator;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xunit;
-using DataProcessor.source.NonGenericsSeries;
+using DataProcessor.source.API.NonGenericsSeries;
 
 namespace test.TestNonGenericsSeries
 {

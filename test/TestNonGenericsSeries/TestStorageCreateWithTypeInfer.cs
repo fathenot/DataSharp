@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using DataProcessor.source.NonGenericsSeries;
-using DataProcessor.source.ValueStorage;
+using DataProcessor.source.API.NonGenericsSeries;
+using DataProcessor.source.Core.ValueStorage;
+
 
 namespace test.TestNonGenericsSeries
 {

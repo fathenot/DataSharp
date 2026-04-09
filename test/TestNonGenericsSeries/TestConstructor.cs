@@ -1,4 +1,4 @@
-﻿using DataProcessor.source.NonGenericsSeries;
+﻿using DataProcessor.source.API.NonGenericsSeries;
 using DataProcessor.source.UserSettings;
 using Xunit;
 namespace test.TestNonGenericsSeries
@@ -152,6 +152,24 @@ namespace test.TestNonGenericsSeries
                     Assert.Contains(data[pos], result.ToList());
                 }
             }
+        }
+
+        [Fact]
+        public void testMatchCountStorageAndIndex()
+        {
+            int count = 2_000_000;
+            var random = new Random();
+
+            List<int> numbers = new List<int>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                numbers.Add(random.Next()); // từ 0 → int.MaxValue
+            }
+            var series = new Series(numbers);
+            var index = series.Index;
+            var c = series.Count;
+            Assert.Equal(count, index.Count);
         }
     }
 }

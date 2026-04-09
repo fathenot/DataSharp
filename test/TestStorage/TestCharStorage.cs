@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using DataProcessor.source.ValueStorage;
+using DataProcessor.source.Core.ValueStorage;
 namespace test.TestStorage
 {
     public class TestCharStorage

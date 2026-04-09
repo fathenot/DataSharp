@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataProcessor.source.IndexTypes;
+using DataProcessor.source.Core.IndexTypes;
 namespace test.TestIndex
 {
     public class TestDecimalIndex

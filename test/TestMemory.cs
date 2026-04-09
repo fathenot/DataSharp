@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataProcessor.source.NonGenericsSeries;
-using DataProcessor.source.ValueStorage;
+using DataProcessor.source.API.NonGenericsSeries;
+using DataProcessor.source.Core.ValueStorage;
 namespace test
 {
     public class TestMemory

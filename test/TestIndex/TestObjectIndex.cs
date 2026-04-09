@@ -1,4 +1,4 @@
-﻿using DataProcessor.source.IndexTypes;
+﻿using DataProcessor.source.Core.IndexTypes;
 namespace test.TestIndex
 {
     public class TestObjectIndex

@@ -1,4 +1,4 @@
-﻿using DataProcessor.source.NonGenericsSeries;
+﻿using DataProcessor.source.API.NonGenericsSeries;
 using DataProcessor.source.EngineWrapper.SortingEngine;
 using System.Buffers;
 
@@ -187,6 +187,16 @@ namespace test.TestNonGenericsSeries
             var sortedValues = series.Values.Select(v => Convert.ToInt32(v)).ToList();
             Assert.True(sortedValues.SequenceEqual(expectedValues),
                         "Series values should match engine-sorted values for Unicode index.");
+        }
+
+        [Fact]
+        public void Take_ByPositions_ReturnsExpectedValuesAndIndices()
+        {
+            var series = new Series(new object?[] { 1, 2, 3, 4, 5 });
+            var result = series.Take(new[] { 0, 2 });
+
+            Assert.Equal(new object?[] { 1, 3 }, result.Values);
+            Assert.Equal(new object[] { 0, 2 }, result.Index);
         }
     }
 }

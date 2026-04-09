@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using DataProcessor.source.ValueStorage;
+using DataProcessor.source.Core.ValueStorage;
 namespace test.TestStorage
 {
     public class TestDoubleStorage

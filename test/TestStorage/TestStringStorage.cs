@@ -1,11 +1,12 @@
-﻿namespace test.TestStorage
+﻿using DataProcessor.source.Core.ValueStorage;
+namespace test.TestStorage
 {
     public class TestStringStorage
     {
         [Fact]
         public void TestStringStorageWithNulls()
         {
-            var stringStorage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { null, "hello", null, "world" });
+            var stringStorage = new StringStorage(new string?[] { null, "hello", null, "world" });
             Assert.Equal(4, stringStorage.Count);
             Assert.True(stringStorage.NullIndices.SequenceEqual(new[] { 0, 2 }));
             Assert.Null(stringStorage.GetValue(0));
@@ -17,7 +18,7 @@
         [Fact]
         public void TestStringStorageWithAllNulls()
         {
-            var stringStorage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { null, null, null });
+            var stringStorage = new StringStorage(new string?[] { null, null, null });
             Assert.Equal(3, stringStorage.Count);
             Assert.True(stringStorage.NullIndices.SequenceEqual(new[] { 0, 1, 2 }));
             Assert.Null(stringStorage.GetValue(0));
@@ -28,7 +29,7 @@
         [Fact]
         public void TestStringStorageWithEmptyArray()
         {
-            var stringStorage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { });
+            var stringStorage = new StringStorage(new string?[] { });
             Assert.Equal(0, stringStorage.Count);
             Assert.Empty(stringStorage.NullIndices);
         }
@@ -36,7 +37,7 @@
         [Fact]
         public void TestUnicodeStringStorage()
         {
-            var stringStorage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { "こんにちは", "世界" });
+            var stringStorage = new StringStorage(new string?[] { "こんにちは", "世界" });
             Assert.Equal(2, stringStorage.Count);
             Assert.Empty(stringStorage.NullIndices);
             Assert.Equal("こんにちは", stringStorage.GetValue(0));
@@ -46,7 +47,7 @@
         [Fact]
         public void TestUnicodeStringStorageWithNulls()
         {
-            var stringStorage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { null, "こんにちは", null, "世界" });
+            var stringStorage = new StringStorage(new string?[] { null, "こんにちは", null, "世界" });
             Assert.Equal(4, stringStorage.Count);
             Assert.True(stringStorage.NullIndices.SequenceEqual(new[] { 0, 2 }));
             Assert.Null(stringStorage.GetValue(0));
@@ -78,7 +79,7 @@
                 "😀", "💩", "A\u030A", "Å", "مرحبا", "שלום", "សួស្តី", "வணக்கம்"
             };
 
-            var storage = new DataProcessor.source.ValueStorage.StringStorage(inputs, false);
+            var storage = new StringStorage(inputs, false);
 
             // Kiểm tra count
             Assert.Equal(inputs.Length, storage.Count);
@@ -99,7 +100,7 @@
         [Fact]
         public void TestStringStorage_SetValue_ValidUpdates()
         {
-            var storage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { "hello", null, "世界" });
+            var storage = new StringStorage(new string?[] { "hello", null, "世界" });
 
             // Ghi đè vị trí có null thành emoji
             storage.SetValue(1, "🔥");
@@ -119,7 +120,7 @@
         [Fact]
         public void TestStringStorage_SetValue_InvalidType_Throws()
         {
-            var storage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { "a", "b", "c" });
+            var storage = new StringStorage(new string?[] { "a", "b", "c" });
 
             // Dùng số nguyên, sẽ ném lỗi
             Assert.Throws<ArgumentException>(() => storage.SetValue(0, 42));
@@ -131,7 +132,7 @@
         [Fact]
         public void TestStringStorage_SetValue_ToNull()
         {
-            var storage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { "x", "y", "z" });
+            var storage = new StringStorage(new string?[] { "x", "y", "z" });
 
             storage.SetValue(1, null);
 
@@ -142,7 +143,7 @@
         [Fact]
         public void TestStringStorage_ApplyLinq()
         {
-            var storage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { "apple", "banana", null, "cherry" });
+            var storage = new StringStorage(new string?[] { "apple", "banana", null, "cherry" });
             var result = storage.AsTyped<string?>().Where(x => x != null).Select(x => x!.ToUpper()).ToList();
             Assert.Equal(3, result.Count);
             Assert.Contains("APPLE", result);
@@ -153,7 +154,7 @@
         [Fact]
         public void TestCultureInvariantNormalization()
         {
-            var storage = new DataProcessor.source.ValueStorage.StringStorage(new string?[] { "A\u030A", "Å" });
+            var storage = new StringStorage(new string?[] { "A\u030A", "Å" });
             Assert.Equal("A\u030A", storage.GetValue(0));
             Assert.Equal("Å", storage.GetValue(1));
             // Kiểm tra xem chúng có được coi là bằng nhau không
