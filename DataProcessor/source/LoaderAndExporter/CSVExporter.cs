@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using DataProcessor.source.API.DataFrame;
 namespace DataProcessor.source.LoaderAndExporter
 {
     public class CSVExporter
@@ -20,7 +20,7 @@ namespace DataProcessor.source.LoaderAndExporter
         /// The method writes using UTF-8 encoding. Values are escaped using the CSV quoting rules implemented by <see cref="Escape(string)"/>.
         /// IO-related exceptions (for example, <see cref="System.IO.IOException"/> or <see cref="UnauthorizedAccessException"/>) may be thrown by the underlying file operations.
         /// </remarks>
-        public static void ToCSV(DataFrame.DataFrame df, string path, char delimiter = ',', bool includeHeader = true, string nullValue = "")
+        public static void ToCSV(DataFrame df, string path, char delimiter = ',', bool includeHeader = true, string nullValue = "")
         {
             using var writer = new StreamWriter(path, false, Encoding.UTF8);
             var columns = df.Columns;
@@ -71,3 +71,4 @@ namespace DataProcessor.source.LoaderAndExporter
         }
     }
 }
+

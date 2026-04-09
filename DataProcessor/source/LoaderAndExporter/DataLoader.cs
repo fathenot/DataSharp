@@ -1,8 +1,9 @@
-﻿using CsvHelper;
+using CsvHelper;
 using CsvHelper.Configuration;
-using DataProcessor.source.NonGenericsSeries;
+using DataProcessor.source.API.NonGenericsSeries;
 using System.Globalization;
 using System.Runtime.Versioning;
+using DataProcessor.source.API.DataFrame;
 namespace DataProcessor.source.LoaderAndExporter
 {
     internal static class DataLoader
@@ -14,9 +15,10 @@ namespace DataProcessor.source.LoaderAndExporter
         /// <param name="delim"></param>
         /// <returns></returns>
 
-        public static DataFrame.DataFrame LoadFromCSV(string path, bool hasHeader, char? delim = null)
+        public static DataFrame LoadFromCSV(string path, bool hasHeader, char? delim = null)
         {
             return CSVLoader.LoadFromCSV(path, hasHeader: hasHeader, delim: delim);
         }
     }
 }
+

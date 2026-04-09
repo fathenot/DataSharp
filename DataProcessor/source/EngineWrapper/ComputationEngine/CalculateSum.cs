@@ -1,5 +1,5 @@
-﻿using DataProcessor.source.UserSettings.DefaultValsGenerator;
-using DataProcessor.source.ValueStorage;
+using DataProcessor.source.UserSettings.DefaultValsGenerator;
+using DataProcessor.source.Core.ValueStorage;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using static System.Runtime.InteropServices.JavaScript.JSType;
