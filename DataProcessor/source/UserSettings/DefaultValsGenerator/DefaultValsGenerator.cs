@@ -1,4 +1,4 @@
-﻿namespace DataProcessor.source.UserSettings.DefaultValsGenerator
+namespace DataProcessor.source.UserSettings.DefaultValsGenerator
 {
 
     // this file contains the default value generator and aggregator interfaces and their implementations
@@ -94,6 +94,15 @@
             return defaultValueFunc();
         }
     }
+
+    /// <summary>
+    /// Provides a centralized registry for associating aggregation calculators and default value providers with
+    /// specific data types.
+    /// </summary>
+    /// <remarks>The AggregationRegistry enables registration and retrieval of calculators and default value
+    /// generators for various types, supporting extensible aggregation operations. It is designed for scenarios where
+    /// type-specific aggregation logic and default values are required, such as in data processing or analytics
+    /// frameworks. All members are static and thread-safe for typical usage patterns.</remarks>
     public static class AggregationRegistry
     {
         private static readonly Dictionary<Type, object> DefaultProviders = new();
@@ -104,6 +113,15 @@
             RegisterDefaults();
         }
 
+        /// <summary>
+        /// Registers default calculators and value generators for core numeric and boolean types, including their
+        /// nullable variants.
+        /// </summary>
+        /// <remarks>This method initializes the system with standard arithmetic and logical operations
+        /// for types such as int, long, float, double, decimal, and bool. It also provides default value generators for
+        /// each type, ensuring that common operations and default values are available without additional
+        /// configuration. This setup is typically required before performing calculations or generating default values
+        /// for these types.</remarks>
         private static void RegisterDefaults()
         {
             // Core numeric types
@@ -183,6 +201,15 @@
                 new FuncDefaultValueGenerator<bool?>(() => false));
         }
 
+        /// <summary>
+        /// Registers the specified calculator and default value generator for the given type parameter.
+        /// </summary>
+        /// <remarks>Subsequent operations involving the specified type will use the registered calculator
+        /// and default value generator. If a calculator or generator is already registered for the type, it will be
+        /// replaced.</remarks>
+        /// <typeparam name="T">The type for which the calculator and default value generator are being registered.</typeparam>
+        /// <param name="calc">The calculator instance to associate with the type parameter. Cannot be null.</param>
+        /// <param name="def">The default value generator to associate with the type parameter. Cannot be null.</param>
         private static void Register<T>(ICalculator<T> calc, IDefaultValueGenerator<T> def)
         {
             Aggregators[typeof(T)] = calc;
@@ -219,3 +246,4 @@
         }
     }
 }
+
