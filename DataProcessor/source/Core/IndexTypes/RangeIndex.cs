@@ -38,7 +38,12 @@ namespace DataProcessor.source.Core.IndexTypes
         {
             get
             {
-                return DistinctIndices().ToList();
+                var result = new List<object>(this.Count);
+                for (int i = 0; i < Count; i++)
+                {
+                    result.Add(this.GetIndex(i));
+                }
+                return result;
             }
         }
 
@@ -174,4 +179,5 @@ namespace DataProcessor.source.Core.IndexTypes
         }
     }
 }
+
 
