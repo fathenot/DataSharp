@@ -34,20 +34,20 @@ namespace DataProcessor.source.API.GenericsSeries
         }
 
         /// <summary>
-        /// Create a view from series
+        /// Creates a view over the series for the specified index values.
         /// </summary>
-        /// <param name="indicies"></param>
-        /// <returns></returns>
+        /// <param name="indicies">The index values to include in the view.</param>
+        /// <returns>A <see cref="SeriesView"/> containing the selected values.</returns>
         public SeriesView GetView(List<object> indicies)
         {
             return new SeriesView(this, indicies);
         }
 
         /// <summary>
-        /// Create a view from series
+        /// Creates a view over the series for the specified slice.
         /// </summary>
-        /// <param name="indicies"></param>
-        /// <returns></returns>
+        /// <param name="slice">The slice boundaries and step to apply.</param>
+        /// <returns>A <see cref="SeriesView"/> containing the sliced values.</returns>
         public SeriesView GetView((object start, object end, int step) slice)
         {
             return new SeriesView(this, slice);
@@ -77,10 +77,10 @@ namespace DataProcessor.source.API.GenericsSeries
         }
 
         /// <summary>
-        /// Counts the number of elements in each group.
+        /// Groups the elements of the current series by value.
         /// </summary>
         /// <returns>
-        /// A dictionary mapping each group key to the number of elements it contains.
+        /// A <see cref="GroupView"/> where each group is keyed by a distinct series value.
         /// </returns>
         public GroupView GroupByValue()
         {

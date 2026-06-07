@@ -80,7 +80,7 @@ namespace DataProcessor.source.Core.IndexTypes
         /// <param name="end">The ending index of the slice. Must be within the bounds of the current index.</param>
         /// <param name="step">The step size for the slice. A positive value slices forward, and a negative value slices backward. Must not
         /// be 0.</param>
-        /// <returns>A new <see cref="Index"/> containing the elements from the current index that match the specified slicing
+        /// <returns>A new <see cref="DataIndex"/> containing the elements from the current index that match the specified slicing
         /// criteria.</returns>
         /// <exception cref="ArgumentException">Thrown if <paramref name="step"/> is 0.</exception>
         public override DataIndex Slice(int start, int end, int step = 1)
@@ -208,7 +208,7 @@ namespace DataProcessor.source.Core.IndexTypes
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
-        /// <returns>An enumerator that can be used to iterate through the collection.</returns
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -221,7 +221,7 @@ namespace DataProcessor.source.Core.IndexTypes
         /// value at the index and maintains an internal mapping of values to their indices. The index must be within
         /// the valid range of the collection.</remarks>
         /// <param name="index">The zero-based index of the value to get or set. Must be within the bounds of the collection.</param>
-        /// <returns></returns>
+        /// <returns>The value stored at the specified index.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is less than 0 or greater than or equal to the length of the collection.</exception>
         public override object this[int index]
         {

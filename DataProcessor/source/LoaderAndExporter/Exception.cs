@@ -15,6 +15,11 @@ namespace DataProcessor.source.LoaderAndExporter
     public class LoadCsvException: Exception
     {
         private string message;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoadCsvException"/> class with the specified error message.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
         public LoadCsvException(string message)
         {
             this.message = message;

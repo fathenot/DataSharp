@@ -25,7 +25,13 @@ namespace DataProcessor.source.API.NonGenericsSeries
             return new GroupView(this, groups);
         }
 
-
+        /// <summary>
+        /// Groups the elements in the current collection by their value and returns a view representing these groups.
+        /// </summary>
+        /// <remarks>Elements with a null value are not included in any group. The returned view allows
+        /// enumeration of groups and their corresponding element indices.</remarks>
+        /// <returns>A <see cref="GroupView"/> object that contains the groups of elements, where each group consists of all
+        /// indices sharing the same value.</returns>
         public GroupView GroupByValue()
         {
             Dictionary<object, List<int>> groups = new Dictionary<object, List<int>>();
@@ -45,11 +51,25 @@ namespace DataProcessor.source.API.NonGenericsSeries
             return new GroupView(this, groups);
         }
 
+        /// <summary>
+        /// Creates a new copy of the current series instance.
+        /// </summary>
+        /// <remarks>The cloned series is independent of the original. Changes to the clone do not affect
+        /// the original series, and vice versa.</remarks>
+        /// <returns>A new <see cref="ISeries"/> object that is a copy of the current instance.</returns>
         public ISeries Clone()
         {
             return new Series(this, true);
         }
 
+        /// <summary>
+        /// Copies the elements of the collection to the specified array, starting at the specified array index.
+        /// </summary>
+        /// <remarks>If the collection is empty, no elements are copied. The destination array must be
+        /// large enough to contain the copied elements starting at the specified index.</remarks>
+        /// <param name="array">The one-dimensional array that is the destination of the elements copied from the collection. The array must
+        /// have zero-based indexing.</param>
+        /// <param name="arrayIndex">The zero-based index in the destination array at which copying begins.</param>
         public void CopyTo(object?[] array, int arrayIndex)
         {
             if (this.valueStorage == null)
@@ -59,6 +79,15 @@ namespace DataProcessor.source.API.NonGenericsSeries
             this.valueStorage.ToList().CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// Converts the values in the current series to a new series of the specified generic type.
+        /// </summary>
+        /// <remarks>Values that are null or equal to DBNull.Value are replaced with the default value of
+        /// DataType in the resulting series. If a value cannot be converted to DataType, the default value is also
+        /// used. The order and count of elements in the returned series match those of the original series.</remarks>
+        /// <typeparam name="DataType">The type to which each value in the series will be converted. Must be a non-nullable type.</typeparam>
+        /// <returns>A new <see cref="GenericsSeries.Series{DataType}"/> containing the converted values. If a value cannot be converted, the default value of
+        /// <typeparamref name="DataType"/> is used in its place.</returns>
         public Series<DataType> ConvertToGenerics<DataType>() where DataType : notnull
         {
             var newValues = new List<DataType>(this.valueStorage.Count);
@@ -173,8 +202,8 @@ namespace DataProcessor.source.API.NonGenericsSeries
         /// <remarks>The sorting operation does not modify the current series. Instead, it creates and
         /// returns a new series with the sorted values. The original index is retained in the returned series, ensuring
         /// that the relationship between values and their indices remains consistent.</remarks>
-        /// <param name="comparer">An optional comparer used to determine the order of the values. If <see langword="null"/>, the default
-        /// comparer for the value type is used.</param>
+        /// <param name="ascending">A value indicating whether values should be sorted in ascending order.</param>
+        /// <param name="nullsFirst">A value indicating whether null values should appear before non-null values.</param>
         /// <returns>A new <see cref="Series"/> instance containing the values sorted according to the specified comparer, with
         /// the original index preserved.</returns>
         public Series SortValues(bool ascending = true, bool nullsFirst = false)
@@ -465,6 +494,17 @@ namespace DataProcessor.source.API.NonGenericsSeries
             return new Series(extendedValues, extendedindex, dtype: null, this.seriesName);
         }
 
+        /// <summary>
+        /// Calculates the sum of all non-null values in the underlying storage, returning the result as a numeric value
+        /// or concatenated string depending on the data type.
+        /// </summary>
+        /// <remarks>The return type varies based on the type of data stored. For numeric types (integer,
+        /// double, decimal), the method returns the computed sum. For string and char types, the method returns the
+        /// concatenation of all non-null values. Callers should ensure they handle the dynamic return type
+        /// appropriately.</remarks>
+        /// <returns>A numeric sum if the storage contains integer, double, or decimal values; a concatenated string if the
+        /// storage contains string or char values. The return type depends on the underlying storage type.</returns>
+        /// <exception cref="NotSupportedException">Thrown if the underlying storage type is not supported for summation.</exception>
         public dynamic Sum()
         {
             string result = string.Empty;
@@ -503,6 +543,15 @@ namespace DataProcessor.source.API.NonGenericsSeries
             }
         }
 
+        /// <summary>
+        /// Returns a new Series containing elements at the specified positions.
+        /// </summary>
+        /// <remarks>If positions contains duplicate indices, the resulting Series will include duplicate
+        /// elements. The order of elements in the returned Series matches the order of indices in positions.</remarks>
+        /// <param name="positions">A collection of zero-based indices indicating which elements to include in the returned Series. Each index
+        /// must be within the bounds of the current Series.</param>
+        /// <returns>A new Series containing the elements and corresponding index values at the specified positions, in the order
+        /// provided by positions.</returns>
         public Series Take(IEnumerable<int> positions)
         {
             List<object?>values = new List<object?>();

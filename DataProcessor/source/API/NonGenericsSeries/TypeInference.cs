@@ -119,12 +119,12 @@ namespace DataProcessor.source.API.NonGenericsSeries
             var nonNullValues = values.Where(v => v != null && v != DBNull.Value).ToList();
             if (nonNullValues.Count == 0)
             {
-                return typeof(object); // Trả về object nếu chỉ chứa null/DBNull
+                return typeof(object); // Return object if contains only null/DBNull
             }
 
             bool AllNumerics = values
-                .Where(v => v != null && v != DBNull.Value) // Loại bỏ các giá trị null và DBNull.Value
-                .All(v => IsNumeric(v)); // Kiểm tra tính số học của phần tử còn lại
+                .Where(v => v != null && v != DBNull.Value) // remove null and DBNull.Value
+                .All(v => IsNumeric(v)); // Checking whether all others elements is numerics 
             if (AllNumerics)
             {
                 return InferNumericType(values);
@@ -144,7 +144,7 @@ namespace DataProcessor.source.API.NonGenericsSeries
                 if (nonNullValues.All(v => v!.GetType() == firstType))
                     return firstType;
 
-                // Nếu có nhiều kiểu struct khác nhau → trả về ValueType
+                // If have multiple struct type return ValueType
                 return typeof(ValueType);
             }
             else if (ContainsReferenceType)
@@ -175,7 +175,7 @@ namespace DataProcessor.source.API.NonGenericsSeries
         /// otherwise, <see langword="false"/>.</returns>
         internal static bool CanCastValueType(Type fromType, Type toType)
         {
-            // Không xét ulong
+            // ulong is not considered
             if (fromType == typeof(ulong) || toType == typeof(ulong))
                 return false;
 
@@ -215,11 +215,11 @@ namespace DataProcessor.source.API.NonGenericsSeries
                 }
             }
 
-            // Nếu to là object thì cast nào cũng được
+            // If to is object type always return true - due to C# mechanism
             if (toType == typeof(object))
                 return true;
 
-            // Kiểm tra presence của implicit hoặc explicit operator
+            // Check presence of implicit or explicit operator
             return HasCustomCastOperator(fromType, toType);
         }
 

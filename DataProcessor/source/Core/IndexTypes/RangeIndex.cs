@@ -60,7 +60,7 @@ namespace DataProcessor.source.Core.IndexTypes
         /// <param name="start">The zero-based starting index of the slice, relative to the current range.</param>
         /// <param name="end">The zero-based ending index of the slice, relative to the current range. The slice will exclude this index.</param>
         /// <param name="step">The step size for the slice. Defaults to 1. Must be a non-zero value.</param>
-        /// <returns>A new <see cref="Index"/> representing the sliced range.</returns>
+        /// <returns>A new <see cref="DataIndex"/> representing the sliced range.</returns>
         public override DataIndex Slice(int start, int end, int step = 1)
         {
             if (step == 0)

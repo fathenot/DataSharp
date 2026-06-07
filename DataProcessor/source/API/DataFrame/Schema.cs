@@ -41,9 +41,9 @@ namespace DataProcessor.source.API.DataFrame
         }
 
         /// <summary>
-        /// return the string to describe the schema
+        /// Returns a formatted string that describes the schema.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A formatted schema description.</returns>
         public override string ToString()
         {
             if (schema == null || schema.Count == 0)

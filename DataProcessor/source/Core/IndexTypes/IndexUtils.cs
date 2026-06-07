@@ -6,10 +6,10 @@ namespace DataProcessor.source.Core.IndexTypes
     internal static class IndexUtils
     {
         /// <summary>
-        /// help methods to detect and handle multiindex
+        /// Determines whether the specified item represents a grouped index element.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item">The item to inspect. This value can be <see langword="null"/>.</param>
+        /// <returns><see langword="true"/> if the item is a grouped index element; otherwise, <see langword="false"/>.</returns>
         public static bool IsGroupedIndexElement(object? item)
         {
             return item is object[] ||

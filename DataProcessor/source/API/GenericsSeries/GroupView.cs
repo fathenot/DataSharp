@@ -33,7 +33,7 @@ namespace DataProcessor.source.API.GenericsSeries
             public IReadOnlyDictionary<object, int[]> Groups => groups;
 
 
-            // <summary>
+            /// <summary>
             /// Gets the indices of a specific group by key.
             /// </summary>
             /// <param name="key">The group key.</param>
@@ -201,9 +201,11 @@ namespace DataProcessor.source.API.GenericsSeries
                 return new Series<DataType>(newValues, newName, newIndexes);
             }
 
-            // <summary>
-            /// Lọc ra những nhóm thỏa predicate (giống groupby.filter trong Pandas)
+            /// <summary>
+            /// Returns a view containing only the groups that satisfy the specified predicate.
             /// </summary>
+            /// <param name="predicate">The predicate used to determine whether a group should be retained.</param>
+            /// <returns>A <see cref="GroupView"/> containing the groups that match the predicate.</returns>
             public GroupView Filter(Func<Series<DataType>, bool> predicate)
             {
                 var filtered = groups

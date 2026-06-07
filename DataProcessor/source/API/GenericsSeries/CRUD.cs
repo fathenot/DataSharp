@@ -20,8 +20,8 @@ namespace DataProcessor.source.API.GenericsSeries
         /// </summary>
         /// <remarks>The <paramref name="index"/> parameter is validated to ensure it does not contain
         /// null values. Based on the type of the index elements, an appropriate index implementation is selected, such
-        /// as <see cref="Index.StringIndex"/>, <see cref="Index.Int64Index"/>, or <see cref="Index.MultiIndex"/> If the
-        /// index contains grouped elements (e.g., arrays), a <see cref="Index.MultiIndex"/> is created.</remarks>
+        /// as <see cref="StringIndex"/>, <see cref="Int64Index"/>, or <see cref="MultiIndex"/>. If the
+        /// index contains grouped elements (e.g., arrays), a <see cref="MultiIndex"/> is created.</remarks>
         /// <param name="data">The collection of data points to be stored in the series. Cannot be null.</param>
         /// <param name="name">The optional name of the series. If not provided, defaults to an empty string.</param>
         /// <param name="index">The optional index associated with the data points. If not provided, a default range index is created. The

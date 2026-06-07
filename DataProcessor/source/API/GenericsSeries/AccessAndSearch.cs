@@ -111,7 +111,7 @@ namespace DataProcessor.source.API.GenericsSeries
         /// Retrieves the item at the specified position in the collection.
         /// </summary>
         /// <param name="pos">The zero-based index of the item to retrieve. Must be within the bounds of the collection.</param>
-        /// <returns>The item of type <see cref="DataType"/> at the specified position.</returns>
+        /// <returns>The item of type <typeparamref name="DataType"/> at the specified position.</returns>
         public DataType GetItemAtPos(int pos)
         {
             return this.values.GetValue(pos);

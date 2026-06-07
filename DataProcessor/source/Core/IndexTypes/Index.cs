@@ -11,13 +11,13 @@ namespace DataProcessor.source.Core.IndexTypes
     public abstract class DataIndex : IEnumerable<object>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Index"/> class.
+        /// Initializes a new instance of the <see cref="DataIndex"/> class.
         /// This constructor is reserved for internal use by derived classes.
         /// </summary>
         protected DataIndex() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Index"/> class using a list of index values.
+        /// Initializes a new instance of the <see cref="DataIndex"/> class using a list of index values.
         /// This constructor is optional and may be used by subclasses for convenience.
         /// </summary>
         /// <param name="indexList">The list of index values.</param>
@@ -99,7 +99,7 @@ namespace DataProcessor.source.Core.IndexTypes
         /// derived class that supports setting index values.</remarks>
         /// <param name="index">The zero-based index of the value to retrieve.</param>
         /// <returns>The value at the specified index.</returns>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException">Thrown when a caller attempts to set a value on the base implementation.</exception>
         public virtual object this[int index]
         {
             get => GetIndex(index);

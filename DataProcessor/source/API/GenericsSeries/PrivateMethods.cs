@@ -10,8 +10,8 @@ namespace DataProcessor.source.API.GenericsSeries
         /// Combines values and their corresponding indices into a collection of <see cref="IndexedValue"/> objects.
         /// </summary>
         /// <remarks>The method creates a new list with the same number of elements as the source
-        /// collection of values. Each element in the resulting list represents a pairing of a value, cast to <see
-        /// cref="DataType"/>, and its index.</remarks>
+        /// collection of values. Each element in the resulting list represents a pairing of a value, cast to
+        /// <typeparamref name="DataType"/>, and its index.</remarks>
         /// <returns>A list of <see cref="IndexedValue"/> objects, where each object contains a value and its associated index.</returns>
         private List<IndexedValue> ZipIndexValue()
         {

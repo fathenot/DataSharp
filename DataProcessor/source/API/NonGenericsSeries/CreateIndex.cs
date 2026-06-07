@@ -15,7 +15,7 @@ namespace DataProcessor.source.API.NonGenericsSeries
         /// <see cref="MultiIndex"/>. For other cases, the method uses the inferred data type to create a specific index
         /// type.</remarks>
         /// <param name="index">A list of objects to be used for creating the index. The list must not contain null values.</param>
-        /// <returns>An implementation of <see cref="Index"/> that corresponds to the data type of the elements in the provided
+        /// <returns>An implementation of <see cref="DataIndex"/> that corresponds to the data type of the elements in the provided
         /// list. If the list contains grouped index elements, a <see cref="MultiIndex"/> is returned. Otherwise, the
         /// method returns a specific index type such as <see cref="StringIndex"/>, <see cref="Int32Index"/>, <see cref="Int64Index"/>, <see
         /// cref="DateTimeIndex"/>, <see cref="DoubleIndex"/>, <see cref="CharIndex"/>, <see cref="DecimalIndex"/>, or

@@ -7,19 +7,22 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DataProcessor.source.EngineWrapper.ComputationEngine
 {
     /// <summary>
-    /// this class provides methods to compute the sum of arrays of doubles and longs using AVX instructions.
-    /// <remarks> currently this is builded for <see cref="Int64ValuesStorage"/> <see cref="DoubleValueStorage"/> for other sum methods / other calculation 
-    /// methods delevelopers see <see cref="FuncCalculator{T}"/> and <see cref="FuncDefaultValueGenerator{T}"/></remarks>
+    /// Provides methods for computing sums by using SIMD instructions when supported.
     /// </summary>
+    /// <remarks>
+    /// The specialized overloads are intended for numeric storage implementations such as
+    /// <see cref="Int64ValuesStorage"/> and <see cref="DoubleValueStorage"/>. For custom aggregation behavior,
+    /// implement <see cref="FuncCalculator{T}"/> and <see cref="FuncDefaultValueGenerator{T}"/>.
+    /// </remarks>
     internal static class CalculateSum
     {
 
         /// <summary>
-        /// This method uses SIMD to calculate sum of double array
+        /// Computes the sum of a sequence of double-precision floating-point values.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        /// <exception cref="PlatformNotSupportedException"></exception>
+        /// <param name="data">The values to sum.</param>
+        /// <returns>The sum of all values in <paramref name="data"/>.</returns>
+        /// <exception cref="PlatformNotSupportedException">Thrown when AVX instructions are not supported by the current CPU.</exception>
         public static double ComputeSum(double[] data)
         {
             if (!Avx.IsSupported)
@@ -59,11 +62,11 @@ namespace DataProcessor.source.EngineWrapper.ComputationEngine
         }
 
         /// <summary>
-        /// this method uses SIMD to calculate sum of Int64 array
+        /// Computes the sum of a sequence of 64-bit signed integers.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        /// <exception cref="PlatformNotSupportedException"></exception>
+        /// <param name="data">The values to sum.</param>
+        /// <returns>The sum of all values in <paramref name="data"/>.</returns>
+        /// <exception cref="PlatformNotSupportedException">Thrown when AVX instructions are not supported by the current CPU.</exception>
         public static long ComputeSum(long[] data)
         {
             if (!Avx.IsSupported)
@@ -110,11 +113,11 @@ namespace DataProcessor.source.EngineWrapper.ComputationEngine
         }
 
         /// <summary>
-        /// this method uses SIMD to calculate sum of Int32 array
+        /// Computes the sum of a sequence of 32-bit signed integers.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        /// <exception cref="PlatformNotSupportedException"></exception>
+        /// <param name="data">The values to sum.</param>
+        /// <returns>The sum of all values in <paramref name="data"/>.</returns>
+        /// <exception cref="PlatformNotSupportedException">Thrown when AVX instructions are not supported by the current CPU.</exception>
         public static long ComputeSum(int[] data)
         {
             if (!Avx.IsSupported)
@@ -161,14 +164,14 @@ namespace DataProcessor.source.EngineWrapper.ComputationEngine
         }
 
         /// <summary>
-        /// this method calculate sum of specified type which can be add
+        /// Computes the sum of a sequence by using the registered aggregator for the specified type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
-        /// <param name="dropNull"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        /// <typeparam name="T">The element type to aggregate.</typeparam>
+        /// <param name="data">The values to sum.</param>
+        /// <param name="dropNull">A value indicating whether null values are ignored.</param>
+        /// <returns>The sum produced by the registered aggregator for <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when an element cannot be aggregated as <typeparamref name="T"/>.</exception>
         public static T ComputeSum<T>(T[] data, bool dropNull = true)
         {
             // data must not be null

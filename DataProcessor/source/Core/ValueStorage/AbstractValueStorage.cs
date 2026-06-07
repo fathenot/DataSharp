@@ -1,7 +1,5 @@
 using System.Collections;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("test")]
-
 namespace DataProcessor.source.Core.ValueStorage
 {
     /// <summary>
@@ -54,7 +52,7 @@ namespace DataProcessor.source.Core.ValueStorage
         /// Gets or sets the value at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the value to get or set.</param>
-        /// <returns></returns>
+        /// <returns>The value stored at the specified index.</returns>
         internal object? this[int index]
         {
             get => GetValue(index);

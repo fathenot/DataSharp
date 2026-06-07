@@ -183,7 +183,7 @@ namespace DataProcessor.source.LoaderAndExporter
                 Delimiter = effectiveDelimiter.ToString(),
                 HasHeaderRecord = true,
 
-                // Your design: don't fail on bad data, collect it
+                // Keep parsing lenient so malformed fields can be collected by the caller.
                 MissingFieldFound = null,
                 BadDataFound = null,
 
@@ -264,7 +264,7 @@ namespace DataProcessor.source.LoaderAndExporter
                 var columnName = columnRegistry.GetColumnName(i);
                 var columnData = buffers[i];
 
-                // All Series are string type - your design!
+                // CSV columns are loaded as string series.
                 series.Add(new Series(
                     columnData,
                     dtype: typeof(string),

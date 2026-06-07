@@ -4,6 +4,19 @@ namespace DataProcessor.source.API.NonGenericsSeries
 {
     public partial class Series
     {
+        /// <summary>
+        /// Creates an appropriate value storage instance for the specified collection of elements, inferring the most
+        /// suitable storage type based on the data contained.
+        /// </summary>
+        /// <remarks>The method analyzes the types of the provided elements to select the most efficient
+        /// storage implementation. If the elements contain null values, a nullable storage type is used where
+        /// applicable. The copy parameter is honored only by certain storage types; for others, it may be
+        /// ignored.</remarks>
+        /// <param name="elements">The list of elements to be stored. Elements may be of mixed types and can include null values.</param>
+        /// <param name="copy">true to create a copy of the elements for storage; false to use the original array where possible. The
+        /// effect of this parameter may vary depending on the inferred storage type.</param>
+        /// <returns>An instance of a subclass of AbstractValueStorage that efficiently stores the provided elements according to
+        /// their inferred data type.</returns>
         internal static AbstractValueStorage CreateValueStorage(List<object?> elements, bool copy = false)
         {
             var dataType = TypeInference.InferDataType(elements);
@@ -95,6 +108,20 @@ namespace DataProcessor.source.API.NonGenericsSeries
 
         }
 
+        /// <summary>
+        /// Converts an object to the specified type, handling common conversions including nullable types, enums,
+        /// booleans, and GUIDs.
+        /// </summary>
+        /// <remarks>This method supports conversion for common .NET types, including enums (from string
+        /// or numeric values), booleans (from string or integer representations), and GUIDs (from string). If the value
+        /// is already of the target type, it is returned unchanged. For other types, standard .NET type conversion is
+        /// used. The method does not support custom type converters.</remarks>
+        /// <param name="value">The object to convert. May be null if the target type is a reference type or a nullable value type.</param>
+        /// <param name="toType">The type to convert the value to. Must not be null.</param>
+        /// <returns>An object of the specified type representing the converted value, or null if the input value is null and the
+        /// target type is nullable or a reference type.</returns>
+        /// <exception cref="InvalidCastException">Thrown if the conversion cannot be performed, such as when converting null to a non-nullable value type or
+        /// when the value cannot be converted to the specified type.</exception>
         internal static object? ChangeType(object? value, Type toType)
         {
             if (value == null)

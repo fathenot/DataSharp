@@ -9,12 +9,12 @@ namespace DataProcessor.source.LoaderAndExporter
     internal static class DataLoader
     {
         /// <summary>
-        /// CSV loader semantics not finalized yet (header / missing / extra columns)
+        /// Loads a CSV file into a <see cref="DataFrame"/>.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="delim"></param>
-        /// <returns></returns>
-
+        /// <param name="path">The path to the CSV file to load.</param>
+        /// <param name="hasHeader">A value indicating whether the first row contains column names.</param>
+        /// <param name="delim">The delimiter used to separate fields, or <see langword="null"/> to auto-detect the delimiter.</param>
+        /// <returns>A <see cref="DataFrame"/> containing the data read from the CSV file.</returns>
         public static DataFrame LoadFromCSV(string path, bool hasHeader, char? delim = null)
         {
             return CSVLoader.LoadFromCSV(path, hasHeader: hasHeader, delim: delim);

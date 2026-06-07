@@ -9,10 +9,10 @@ namespace DataProcessor.source.UserSettings.DefaultValsGenerator
     }
 
     /// <summary>
-    /// defines arithmetic operations for a specific types
-    /// Any unsupported operation will throw NotSupportedException.
+    /// Defines arithmetic operations for a specific type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <remarks>Unsupported operations throw <see cref="NotSupportedException"/>.</remarks>
+    /// <typeparam name="T">The type that the calculator operates on.</typeparam>
     public interface ICalculator<T>
     {
         T Add(T a, T b);

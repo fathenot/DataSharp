@@ -76,7 +76,7 @@ namespace DataProcessor.source.Core.IndexTypes
         /// <param name="end">The zero-based ending index of the slice. Must be within the bounds of the current index.</param>
         /// <param name="step">The step size for the slice. Must not be zero. Positive values iterate forward, while negative values
         /// iterate backward.</param>
-        /// <returns>A new <see cref="Index"/> containing the elements from the current index that match the specified slicing
+        /// <returns>A new <see cref="DataIndex"/> containing the elements from the current index that match the specified slicing
         /// criteria.</returns>
         /// <exception cref="ArgumentException">Thrown if <paramref name="step"/> is zero.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="start"/> or <paramref name="end"/> is outside the bounds of the current index.</exception>

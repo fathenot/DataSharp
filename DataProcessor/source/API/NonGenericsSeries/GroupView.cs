@@ -88,6 +88,13 @@ namespace DataProcessor.source.API.NonGenericsSeries
                 return result;
             }
 
+            /// <summary>
+            /// Applies the specified function to each group in the collection and returns the results as a dictionary.
+            /// </summary>
+            /// <param name="func">A function to apply to each group, represented as a Series. The function should accept a Series and
+            /// return a result for that group.</param>
+            /// <returns>A dictionary containing the result of applying the function to each group. The keys correspond to the
+            /// group keys, and the values are the results returned by the function.</returns>
             public Dictionary<object, object> Apply(Func<Series, object> func)
             {
                 var result = new Dictionary<object, object>();

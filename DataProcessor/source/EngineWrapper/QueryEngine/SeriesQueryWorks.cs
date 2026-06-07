@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataProcessor.source.EngineWrapper.QueryEngine
 {
+    /// <summary>
+    /// Represents a collection of query nodes used to build a series query.
+    /// </summary>
     internal class SeriesQueryWorks
     {
         private readonly List<QueryNode> _nodes = new List<QueryNode>();

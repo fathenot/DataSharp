@@ -71,6 +71,9 @@ namespace DataProcessor.source.API.NonGenericsSeries
         /// </summary>
         public List<object> Index => index.IndexList.ToList();
 
+        /// <summary>
+        /// Gets the underlying value storage for this instance.
+        /// </summary>
         internal AbstractValueStorage Storage => valueStorage;
     }
 }
