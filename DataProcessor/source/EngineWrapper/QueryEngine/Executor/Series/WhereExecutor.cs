@@ -1,6 +1,7 @@
 using DataProcessor.source.Core.ValueStorage;
+using DataProcessor.source.EngineWrapper.QueryEngine.Nodes;
 
-namespace DataProcessor.source.EngineWrapper.QueryEngine
+namespace DataProcessor.source.EngineWrapper.QueryEngine.Executor.Series
 {
     internal static class WhereExecutor
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace DataProcessor.source.EngineWrapper.QueryEngine
+namespace DataProcessor.source.EngineWrapper.QueryEngine.Nodes
 {
     /// <summary>
     /// Represents a select operation in a series query plan.

@@ -1,6 +1,7 @@
 using DataProcessor.source.Core.ValueStorage;
+using DataProcessor.source.EngineWrapper.QueryEngine.Nodes;
 
-namespace DataProcessor.source.EngineWrapper.QueryEngine
+namespace DataProcessor.source.EngineWrapper.QueryEngine.Executor.Series
 {
     /// <summary>
     /// Provides static methods for projecting and transforming elements from value storage or spans, supporting null
@@ -141,7 +142,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<int, int>(int32ValuesStorage.ValuesSpan, int32ValuesStorage.NullBitmap, (Func<int, int>)node.Selector);
                         }
-                        return Execute<int, object?>(int32ValuesStorage.ValuesSpan, int32ValuesStorage.NullBitmap, (Func<int, object?>)node.Selector);
+                        return Execute(int32ValuesStorage.ValuesSpan, int32ValuesStorage.NullBitmap, (Func<int, object?>)node.Selector);
                     }
                 case StorageKind.Int64:
                     {
@@ -150,7 +151,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<long, long>(int64ValuesStorage.ValuesSpan, int64ValuesStorage.NullBitmap, (Func<long, long>)node.Selector);
                         }
-                        return Execute<long, object?>(int64ValuesStorage.ValuesSpan, int64ValuesStorage.NullBitmap, (Func<long, object?>)node.Selector);
+                        return Execute(int64ValuesStorage.ValuesSpan, int64ValuesStorage.NullBitmap, (Func<long, object?>)node.Selector);
                     }
                 case StorageKind.Double:
                     {
@@ -159,7 +160,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<double, double>(doubleStorage.ValuesSpan, doubleStorage.NullBitmap, (Func<double, double>)node.Selector);
                         }
-                        return Execute<double, object?>(doubleStorage.ValuesSpan, doubleStorage.NullBitmap, (Func<double, object?>)node.Selector);
+                        return Execute(doubleStorage.ValuesSpan, doubleStorage.NullBitmap, (Func<double, object?>)node.Selector);
                     }
                 case StorageKind.Decimal:
                     {
@@ -168,7 +169,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<decimal, decimal>(decimalStorage.ValuesSpan, decimalStorage.NullBitmap, (Func<decimal, decimal>)node.Selector);
                         }
-                        return Execute<decimal, object?>(decimalStorage.ValuesSpan, decimalStorage.NullBitmap, (Func<decimal, object?>)node.Selector);
+                        return Execute(decimalStorage.ValuesSpan, decimalStorage.NullBitmap, (Func<decimal, object?>)node.Selector);
                     }
                 case StorageKind.Char:
                     {
@@ -177,7 +178,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<char, char>(charStorage.ValuesSpan, charStorage.NullBitmap, (Func<char, char>)node.Selector);
                         }
-                        return Execute<char, object?>(charStorage.ValuesSpan, charStorage.NullBitmap, (Func<char, object?>)node.Selector);
+                        return Execute(charStorage.ValuesSpan, charStorage.NullBitmap, (Func<char, object?>)node.Selector);
                     }
                 case StorageKind.Boolean:
                     {
@@ -186,7 +187,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<bool, bool>(boolStorage.ValuesSpan, boolStorage.NullBitmap, (Func<bool, bool>)node.Selector);
                         }
-                        return Execute<bool, object?>(boolStorage.ValuesSpan, boolStorage.NullBitmap, (Func<bool, object?>)node.Selector);
+                        return Execute(boolStorage.ValuesSpan, boolStorage.NullBitmap, (Func<bool, object?>)node.Selector);
                     }
                 case StorageKind.String:
                     {
@@ -195,7 +196,7 @@ namespace DataProcessor.source.EngineWrapper.QueryEngine
                         {
                             return Execute<string?, string?>(stringStorage.ValuesSpan, stringStorage.NullBitmap, (Func<string?, string?>)node.Selector);
                         }
-                        return Execute<string?, object?>(stringStorage.ValuesSpan, stringStorage.NullBitmap, (Func<string?, object?>)node.Selector);
+                        return Execute(stringStorage.ValuesSpan, stringStorage.NullBitmap, (Func<string?, object?>)node.Selector);
                     }
                 case StorageKind.Object:
                     {
