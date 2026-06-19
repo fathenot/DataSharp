@@ -11,7 +11,7 @@ namespace test.TestNonGenericsSeries
         )]
         [InlineData(
             new object[] { 3.14, 2.71, null },
-            typeof(double),
+            typeof(double?),
             new object[] { 0, 1, 2 }
         )]
         [InlineData(
@@ -21,12 +21,12 @@ namespace test.TestNonGenericsSeries
         )]
         [InlineData(
             new object[] { 1.1, 2.2, null, 3.3 },
-            typeof(double),
+            typeof(double?),
             new object[] { "a", "b", "c", "d" }
         )]
         [InlineData(
             new object[] { 1.1, 2.2, null, 3.3 },
-            typeof(double),
+            typeof(double?),
             new object[] { 0, 1, 2, 3 }
         )]
         public void DataTypeProperties(object[] values, Type expectedType, object[] index)

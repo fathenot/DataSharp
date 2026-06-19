@@ -19,7 +19,14 @@ namespace DataProcessor.source.API.NonGenericsSeries
         /// their inferred data type.</returns>
         internal static AbstractValueStorage CreateValueStorage(List<object?> elements, bool copy = false)
         {
-            var dataType = TypeInference.InferDataType(elements);
+            var dataType = TypeInference.InferDataType(elements); // this is the actual datatype used to create storage;
+            var nonNullType = Nullable.GetUnderlyingType(dataType);
+
+            if (nonNullType != null)
+            {
+                dataType = nonNullType;
+            }
+
             if (dataType == typeof(bool))
             {
                 // If the data type is boolean, we can use BoolStorage

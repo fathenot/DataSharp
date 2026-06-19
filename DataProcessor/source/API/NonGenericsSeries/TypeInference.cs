@@ -127,7 +127,12 @@ namespace DataProcessor.source.API.NonGenericsSeries
                 .All(v => IsNumeric(v)); // Checking whether all others elements is numerics 
             if (AllNumerics)
             {
-                return InferNumericType(values);
+                Type inferedNumericType =  InferNumericType(values);
+                if (inferedNumericType.IsValueType && nonNullValues.Count < values.Count)
+                {
+                    return typeof(Nullable<>).MakeGenericType(inferedNumericType);
+                }
+                return inferedNumericType;
             }
 
             // check values contains value type or reference type
@@ -142,10 +147,16 @@ namespace DataProcessor.source.API.NonGenericsSeries
             {
                 Type firstType = nonNullValues.First()?.GetType()!;
                 if (nonNullValues.All(v => v!.GetType() == firstType))
+                {
+                    if (nonNullValues.Count < values.Count)
+                    {
+                        return typeof(Nullable<>).MakeGenericType(firstType);
+                    }
                     return firstType;
+                }
 
                 // If have multiple struct type return ValueType
-                return typeof(ValueType);
+                return nonNullValues.Count < values.Count? typeof(object) : typeof(ValueType);
             }
             else if (ContainsReferenceType)
             {

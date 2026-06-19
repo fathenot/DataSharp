@@ -31,7 +31,7 @@ namespace test.TestNonGenericsSeries
             new object[] { new object[] { new DateTime(2020, 1, 1) }, typeof(DateTime), typeof(DateTimeStorage) },
             new object[] { new object[] { Guid.NewGuid() }, typeof(Guid), typeof(ObjectValueStorage) },
             new object[] { new object[] { "Hello", "World" }, typeof(string), typeof(StringStorage) },
-            new object[] { new object[] { null, true, false }, typeof(bool), typeof(BoolStorage) },
+            new object[] { new object[] { null, true, false }, typeof(bool?), typeof(BoolStorage) },
         };
 
         [Theory]

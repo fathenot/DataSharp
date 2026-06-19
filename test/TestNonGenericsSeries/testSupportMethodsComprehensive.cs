@@ -80,7 +80,7 @@ namespace test.TestNonGenericsSeries
         public void InferDataType_HandlesListWithMostlyNulls()
         {
             var values = new List<object?> { null, null, 123, null, null };
-            Assert.Equal(typeof(int), TypeInference.InferDataType(values));
+            Assert.Equal(typeof(int?), TypeInference.InferDataType(values));
         }
 
         #endregion
@@ -407,12 +407,12 @@ namespace test.TestNonGenericsSeries
         {
             var values = new List<object?>
             {
-                DBNull.Value,
+                null,
                 123,
                 DBNull.Value,
                 456
             };
-            Assert.Equal(typeof(int), TypeInference.InferDataType(values));
+            Assert.Equal(typeof(int?), TypeInference.InferDataType(values));
         }
 
         [Fact]

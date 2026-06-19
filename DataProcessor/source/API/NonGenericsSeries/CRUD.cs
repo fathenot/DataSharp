@@ -103,10 +103,9 @@ namespace DataProcessor.source.API.NonGenericsSeries
             {
                 // infer the data type from the values
                 this.dataType = TypeInference.InferDataType(values)!;
+                // create the value storage based on the values and data type
+                this.valueStorage = CreateValueStorage(values, copy);
             }
-
-            // create the value storage based on the values and data type
-            this.valueStorage = CreateValueStorage(values, copy);
 
             // if index is null, create a default RangeIndex with the length of values
             if (index == null) this.index = new RangeIndex(0, values.Count-1);
