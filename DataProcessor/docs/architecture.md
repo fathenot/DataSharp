@@ -13,15 +13,17 @@
   - Provides indexing, grouping, sorting, and query helpers.
 - **GenericsSeries** (`source/API/GenericsSeries`)
   - `Series<T>`: Strongly typed series.
+- **DataFrame** (`source/API/DataFrame`)
+  - Tabular API composed from named series.
 
 ### Core Layer
 - **IndexTypes** (`source/Core/IndexTypes`)
   - RangeIndex, StringIndex, DateTimeIndex, MultiIndex, etc.
-  - Index operations: lookups, distinct, position mapping.
+  - Index operations: lookups, distinct values, and position mapping.
 - **ValueStorage** (`source/Core/ValueStorage`)
   - Storage for primitives and objects.
   - Null tracking via `NullBitMap`.
-  - `ValuesSpan` accessors for low-overhead reads.
+  - `ValuesSpan` accessors for low-overhead reads where supported.
 
 ### Engine Layer
 - **ComputationEngine**
@@ -30,12 +32,13 @@
   - Index/value sorting utilities.
 - **QueryEngine**
   - Query plan nodes and executors.
-  - Eager query approach returning positions for reconstruction in Series.
+  - Eager query approach for filtering, projection, and sorting pipelines.
+  - Sorting support is currently being completed.
 
 ## Data Flow (Example)
-1. `Series.Query(...)` executes in API layer.
-2. `QueryEngine` returns matching positions.
-3. API layer reconstructs `Series` using values/index at those positions.
+1. `Series.Query(...)` creates a query plan through `SeriesQueryBuilder`.
+2. `QueryEngine` executes the plan against value storage and index data.
+3. The API layer reconstructs a `Series` from the executor result.
 
 ## Error Handling
 - Argument validation at API and core layers.

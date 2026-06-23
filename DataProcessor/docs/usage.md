@@ -1,4 +1,4 @@
-# Usage Guide
+# Usage
 
 ## Non-Generic Series
 ```csharp
@@ -19,10 +19,10 @@ var filtered = s.Filter(x => x > 1);
 
 ## Indexing and Slicing
 ```csharp
-// Access by index
+// Access by index.
 var values = s[0];
 
-// Create views
+// Create views.
 var view = s.GetView((start: 0, end: 2, step: 1));
 ```
 
@@ -38,5 +38,10 @@ var sorted = s.SortValues(ascending: true);
 
 ## Query (Eager)
 ```csharp
-var q = s.Query(v => v is int i && i > 10);
+using DataProcessor.source.API.NonGenericsSeries;
+
+var s = new Series(new object?[] { 10, 20, 30 }, name: "query-example");
+var result = s.Query(q => q.Where<int>(value => value > 10));
 ```
+
+Query operations are executed eagerly and return a new `Series`. Filtering and projection are available; query-level sorting is in progress.
